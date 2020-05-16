@@ -1,4 +1,7 @@
 ﻿using System;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace SignalServer
 {
@@ -9,24 +12,11 @@ namespace SignalServer
             Console.WriteLine("Signal R Chatter Host in C#\r");
             Console.WriteLine("------------------------\n");
 
-            string url = "http://127.0.0.1:8088/";
-            var server = new Server(url);
+            CreateWebHostBuilder(args).Build().Run();
+        }
 
-            // Map the default hub url (/signalr)
-            server.MapHubs();
-
-            // Start the server
-            server.Start();
-
-            Console.WriteLine("Server running on {0}", url);
-
-            // Keep going until somebody hits 'x'
-            while (true) {
-                ConsoleKeyInfo ki = Console.ReadKey(true);
-                if (ki.Key == ConsoleKey.X) {
-                    break;
-                }
-            }
+            private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+                WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
         }
     }
-}
