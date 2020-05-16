@@ -18,6 +18,19 @@ namespace ChatConsole
 
             var connection = new HubConnectionBuilder().WithUrl("http://localhost:7071/api").Build();
 
+            connection.On<SignalRMessage>("newMessage", (message) =>
+            {
+                Console.WriteLine(message.Arguments);
+            });
+
+            connection.On("newMessage", (string server, string message) =>
+            {
+                Console.WriteLine($"Message from server {server}: {message}");
+            });
+
+            await connection.StartAsync();
+            Console.ReadKey();
+
         }
         
         /// <summary>
