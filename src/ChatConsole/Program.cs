@@ -25,32 +25,32 @@ namespace ChatConsole
 
             await connection.StartAsync();
             Console.WriteLine("Starting connection. Press Ctrl-C to close.");
+
+            //Handle cancellation/closure events
             var cts = new CancellationTokenSource();
             Console.CancelKeyPress += async (sender, a) =>
             {
-                Console.WriteLine("Cancel Pressed");
                 a.Cancel = true;
                 cts.Cancel();
                 await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has left");
                 Environment.Exit(0);
             };
 
-            //var mes = Console.ReadLine();
+            //Listen for incoming messages from signalR hub
             connection.On("broadcastMessage", (string userName, string message) => {
                 Console.WriteLine($"{userName} says: {message}");
             });
 
             await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has connected");
-
-            // Console.WriteLine("Press ESC to stop");
+    
+            Console.WriteLine("Please write into chat below!");    
             while(true)
             {
-                // do something   
+                // wait for user to write something into the chat
                 string content = Console.ReadLine();
                 if(!string.IsNullOrWhiteSpace(content))
                     await connection.InvokeAsync("sendMessage", $"{name}:", content);
             }
-            //Console.WriteLine("Client is shutting down...");
         }
     }
 }
