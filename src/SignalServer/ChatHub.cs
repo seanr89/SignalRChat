@@ -21,21 +21,6 @@ namespace SignalServer
             return;
         }
 
-        // public async Task Send(string name, string message)
-        // {
-        //     Console.WriteLine("Send message");
-        //     // Call the broadcastMessage method to update clients.
-        //     await Clients.All.SendAsync("broadcastMessage", name, message);
-        // }
-
-        // /// <summary>
-        // /// This method broadcasts a message to all clients.
-        // /// </summary>
-        // public void BroadCastMessage(string name, string message)
-        // {
-        //     Clients.All.SendAsync("broadcastMessage", name, message);
-        // }
-
         /// <summary>
         /// This method sends a message back to the caller.
         /// </summary>

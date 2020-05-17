@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
@@ -17,53 +18,39 @@ namespace ChatConsole
             Console.WriteLine("Signal R Chatter in C#\r");
             Console.WriteLine("------------------------\n");
 
-            //Console.WriteLine("Enter your name");    
-            //string name = Console.ReadLine();
+            Console.WriteLine("Enter your name");    
+            string name = Console.ReadLine();
 
             var connection = new HubConnectionBuilder().WithUrl("http://localhost:5000/chatHub").Build();
 
             await connection.StartAsync();
+            Console.WriteLine("Starting connection. Press Ctrl-C to close.");
+            var cts = new CancellationTokenSource();
+            Console.CancelKeyPress += async (sender, a) =>
+            {
+                Console.WriteLine("Cancel Pressed");
+                a.Cancel = true;
+                cts.Cancel();
+                await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has left");
+                Environment.Exit(0);
+            };
 
             //var mes = Console.ReadLine();
             connection.On("broadcastMessage", (string userName, string message) => {
                 Console.WriteLine($"{userName} says: {message}");
             });
 
-            await connection.InvokeAsync("sendMessage", "Sean", "Hello");
-
-            Console.WriteLine("Message Sent");
+            await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has connected");
 
             // Console.WriteLine("Press ESC to stop");
-            // while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
-            // {
-            //     // do something
-            // }
-            Console.WriteLine("Waiting for response");
-            Console.ReadKey();
-            Console.WriteLine("Client is shutting down...");
-        }
-        
-        /// <summary>
-        /// Query app settings json content
-        /// </summary>
-        /// <returns></returns>
-        private static IConfigurationRoot LoadAppSettings()
-        {
-             Console.WriteLine("LoadAppSettings");
-            try
+            while(true)
             {
-                var config = new ConfigurationBuilder()
-                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, true)
-                .Build();
-
-                return config;
+                // do something   
+                string content = Console.ReadLine();
+                if(!string.IsNullOrWhiteSpace(content))
+                    await connection.InvokeAsync("sendMessage", $"{name}:", content);
             }
-            catch (System.IO.FileNotFoundException)
-            {
-                Console.WriteLine("Error trying to load app settings");
-                return null;
-            }
+            //Console.WriteLine("Client is shutting down...");
         }
     }
 }
