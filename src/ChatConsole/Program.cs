@@ -17,27 +17,29 @@ namespace ChatConsole
             Console.WriteLine("Signal R Chatter in C#\r");
             Console.WriteLine("------------------------\n");
 
-            Console.WriteLine("Enter your name");    
-            string name = Console.ReadLine();
+            //Console.WriteLine("Enter your name");    
+            //string name = Console.ReadLine();
 
-            var connection = new HubConnectionBuilder().WithUrl("http://localhost:5001/chatHub").Build();
+            var connection = new HubConnectionBuilder().WithUrl("http://localhost:5000/chatHub").Build();
 
             await connection.StartAsync();
 
-            var mes = Console.ReadLine();
-
-            await connection.InvokeCoreAsync("SendMessage", args: new[] {name, "Hello"});
-
-            connection.On("ReceiveMessage", (string userName, string message) => {
+            //var mes = Console.ReadLine();
+            connection.On("broadcastMessage", (string userName, string message) => {
                 Console.WriteLine($"{userName} says: {message}");
             });
 
-            Console.WriteLine("Press ESC to stop");
+            await connection.InvokeAsync("sendMessage", "Sean", "Hello");
 
-            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
-            {
-                // do something
-            }
+            Console.WriteLine("Message Sent");
+
+            // Console.WriteLine("Press ESC to stop");
+            // while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
+            // {
+            //     // do something
+            // }
+            Console.WriteLine("Waiting for response");
+            Console.ReadKey();
             Console.WriteLine("Client is shutting down...");
         }
         
