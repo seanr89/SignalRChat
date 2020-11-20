@@ -17,7 +17,7 @@ namespace SignalServer
 
         private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .UseUrls("http://hostname:5000")
+            .UseUrls("http://hostname:5000;https://hostname:5001")
             .UseStartup<Startup>();
     }
 }

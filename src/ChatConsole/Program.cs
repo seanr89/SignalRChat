@@ -20,46 +20,66 @@ namespace ChatConsole
 
             string host = "http://10.15.38.39:5000/chatHub"; //http://localhost:5000/chatHub
 
-            Console.WriteLine("Enter a host");
+            Console.WriteLine("Enter a host (i.e. http://localhost:5000/chatHub");
             var inputHost = Console.ReadLine();
+
+            // Console.WriteLine("Enter a hub");
+            // var inputHub = Console.ReadLine();
+
             if (!string.IsNullOrWhiteSpace(inputHost))
                 host = inputHost;
             else
                 Console.WriteLine($"Using host: {host}");
 
+
+
             Console.WriteLine("Enter your name");
             string name = Console.ReadLine();
-
-            var connection = new HubConnectionBuilder().WithUrl(host).Build();
-
-            await connection.StartAsync();
-            Console.WriteLine("Starting connection. Press Ctrl-C to close.");
-
-            //Handle cancellation/closure events
-            var cts = new CancellationTokenSource();
-            Console.CancelKeyPress += async (sender, a) =>
+            try
             {
-                a.Cancel = true;
-                cts.Cancel();
-                await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has left");
-                Environment.Exit(0);
-            };
+                var connection = new HubConnectionBuilder().WithUrl(host).Build();
 
-            //Listen for incoming messages from signalR hub
-            connection.On("broadcastMessage", (string userName, string message) =>
+                await connection.StartAsync();
+                Console.WriteLine("Starting connection. Press Ctrl-C to close.");
+
+                //Handle cancellation/closure events
+                var cts = new CancellationTokenSource();
+                Console.CancelKeyPress += async (sender, a) =>
+                {
+                    a.Cancel = true;
+                    cts.Cancel();
+                    await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has left");
+                    Environment.Exit(0);
+                };
+
+                //Listen for incoming messages from signalR hub
+                connection.On("broadcastMessage", (string userName, string message) =>
+                {
+                    if (userName == name)
+                        Console.WriteLine($"You said: {message}");
+                    else
+                        Console.WriteLine($"{userName} says: {message}");
+                });
+
+                await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has connected");
+
+                Console.WriteLine("Please write into chat below!");
+                while (true)
+                {
+                    // wait for user to write something into the chat
+                    string content = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(content))
+                        await connection.InvokeAsync("sendMessage", $"{name}:", content);
+                }
+            }
+            catch (System.Exception e)
             {
-                Console.WriteLine($"{userName} says: {message}");
-            });
-
-            await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has connected");
-
-            Console.WriteLine("Please write into chat below!");
-            while (true)
+                Console.WriteLine($"Caught exception {e.Message}");
+                throw;
+            }
+            finally
             {
-                // wait for user to write something into the chat
-                string content = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(content))
-                    await connection.InvokeAsync("sendMessage", $"{name}:", content);
+                Console.WriteLine("Closing App");
             }
         }
     }
