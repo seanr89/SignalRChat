@@ -18,10 +18,19 @@ namespace ChatConsole
             Console.WriteLine("Signal R Chatter in C#\r");
             Console.WriteLine("------------------------\n");
 
-            Console.WriteLine("Enter your name");    
+            string host = "http://10.15.38.39:5000/chatHub"; //http://localhost:5000/chatHub
+
+            Console.WriteLine("Enter a host");
+            var inputHost = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(inputHost))
+                host = inputHost;
+            else
+                Console.WriteLine($"Using host: {host}");
+
+            Console.WriteLine("Enter your name");
             string name = Console.ReadLine();
 
-            var connection = new HubConnectionBuilder().WithUrl("http://localhost:5000/chatHub").Build();
+            var connection = new HubConnectionBuilder().WithUrl(host).Build();
 
             await connection.StartAsync();
             Console.WriteLine("Starting connection. Press Ctrl-C to close.");
@@ -37,18 +46,19 @@ namespace ChatConsole
             };
 
             //Listen for incoming messages from signalR hub
-            connection.On("broadcastMessage", (string userName, string message) => {
+            connection.On("broadcastMessage", (string userName, string message) =>
+            {
                 Console.WriteLine($"{userName} says: {message}");
             });
 
             await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has connected");
-    
-            Console.WriteLine("Please write into chat below!");    
-            while(true)
+
+            Console.WriteLine("Please write into chat below!");
+            while (true)
             {
                 // wait for user to write something into the chat
                 string content = Console.ReadLine();
-                if(!string.IsNullOrWhiteSpace(content))
+                if (!string.IsNullOrWhiteSpace(content))
                     await connection.InvokeAsync("sendMessage", $"{name}:", content);
             }
         }

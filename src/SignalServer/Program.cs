@@ -15,8 +15,9 @@ namespace SignalServer
             CreateWebHostBuilder(args).Build().Run();
         }
 
-            private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-                WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-        }
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+            .UseUrls("http://hostname:5000")
+            .UseStartup<Startup>();
     }
+}

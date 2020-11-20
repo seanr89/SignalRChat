@@ -17,6 +17,7 @@ namespace SignalServer
         /// <returns>a broadcastMessage to others listening</returns>
         public async Task SendMessage(string name, string message)
         {
+            Console.WriteLine("SendMessage");
             await Clients.All.SendAsync("broadcastMessage", name, message);
         }
     }

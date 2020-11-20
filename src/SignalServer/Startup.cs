@@ -9,7 +9,7 @@ using SignalServer;
 
 public class Startup
 {
-    public IConfiguration Configuration {get;}
+    public IConfiguration Configuration { get; }
 
     public Startup(IConfiguration configuration)
     {
@@ -28,7 +28,8 @@ public class Startup
     {
         app.UseRouting();
 
-        app.UseEndpoints(endpoints => {
+        app.UseEndpoints(endpoints =>
+        {
             endpoints.MapHub<ChatHub>("/chatHub");
         });
     }
