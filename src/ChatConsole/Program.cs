@@ -15,26 +15,24 @@ namespace ChatConsole
         static async Task Main(string[] args)
         {
             // Display title as the C# SignalR Chat
-            Console.WriteLine("Signal R Chatter in C#\r");
+            Console.WriteLine("SignalR Chatter\r");
             Console.WriteLine("------------------------\n");
 
+            //configure the default host for local!
             string host = "http://10.15.38.39:5000/chatHub"; //http://localhost:5000/chatHub
 
-            Console.WriteLine("Enter a host (i.e. http://localhost:5000/chatHub");
+            //Ask the user if they want to configure a different host
+            Console.WriteLine("Enter host (i.e. http://localhost:5000/chatHub - or leave blank and use default!)");
             var inputHost = Console.ReadLine();
-
-            // Console.WriteLine("Enter a hub");
-            // var inputHub = Console.ReadLine();
-
+            //Check if there was any input
             if (!string.IsNullOrWhiteSpace(inputHost))
                 host = inputHost;
             else
                 Console.WriteLine($"Using host: {host}");
 
-
-
-            Console.WriteLine("Enter your name");
+            Console.WriteLine("Enter a UserName");
             string name = Console.ReadLine();
+
             try
             {
                 var connection = new HubConnectionBuilder().WithUrl(host).Build();
