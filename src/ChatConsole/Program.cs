@@ -11,6 +11,7 @@ namespace ChatConsole
     class Program
     {
         //useful: https://github.com/aspnet/SignalR-samples
+        //https://docs.microsoft.com/en-us/aspnet/core/signalr/dotnet-client?view=aspnetcore-5.0&tabs=visual-studio
         private static IConfigurationRoot Configuration { get; set; }
         static async Task Main(string[] args)
         {
@@ -18,17 +19,17 @@ namespace ChatConsole
             Console.WriteLine("SignalR Chatter\r");
             Console.WriteLine("------------------------\n");
 
-            //configure the default host for local!
+            //configure the default host for local (current work IP)
             string host = "http://10.15.38.39:5000/chatHub"; //http://localhost:5000/chatHub
 
             //Ask the user if they want to configure a different host
             Console.WriteLine("Enter host (i.e. http://localhost:5000/chatHub - or leave blank and use default!)");
             var inputHost = Console.ReadLine();
-            //Check if there was any input
+            //Check if there was anything provided - otherwise we use the default
             if (!string.IsNullOrWhiteSpace(inputHost))
                 host = inputHost;
-            else
-                Console.WriteLine($"Using host: {host}");
+
+            Console.WriteLine($"Using host: {host}");
 
             Console.WriteLine("Enter a UserName");
             string name = Console.ReadLine();
