@@ -13,6 +13,7 @@ namespace ChatConsole
         //useful: https://github.com/aspnet/SignalR-samples
         //https://docs.microsoft.com/en-us/aspnet/core/signalr/dotnet-client?view=aspnetcore-5.0&tabs=visual-studio
         private static IConfigurationRoot Configuration { get; set; }
+        private static string _userName { get; set; }
         static async Task Main(string[] args)
         {
             // Display title as the C# SignalR Chat
@@ -20,7 +21,9 @@ namespace ChatConsole
             Console.WriteLine("------------------------\n");
 
             //configure the default host for local (current work IP)
-            string host = "http://10.15.38.39:5000/chatHub"; //http://localhost:5000/chatHub
+            //string host = "http://10.15.38.39:5000/chatHub";
+            //Home
+            string host = "http://localhost:5000/chatHub";
 
             //Ask the user if they want to configure a different host
             Console.WriteLine("Enter host (i.e. http://localhost:5000/chatHub - or leave blank and use default!)");
@@ -32,7 +35,7 @@ namespace ChatConsole
             Console.WriteLine($"Using host: {host}");
 
             Console.WriteLine("Enter a UserName");
-            string name = Console.ReadLine();
+            _userName = Console.ReadLine();
 
             try
             {
@@ -47,28 +50,32 @@ namespace ChatConsole
                 {
                     a.Cancel = true;
                     cts.Cancel();
-                    await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has left");
+                    await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{_userName} has left");
                     Environment.Exit(0);
                 };
 
                 //Listen for incoming messages from signalR hub
                 connection.On("broadcastMessage", (string userName, string message) =>
                 {
-                    if (userName == name)
+                    if (userName == _userName)
                         Console.WriteLine($"You said: {message}");
                     else
                         Console.WriteLine($"{userName} says: {message}");
                 });
 
-                await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{name} has connected");
+                await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{_userName} has connected");
 
                 Console.WriteLine("Please write into chat below!");
                 while (true)
                 {
+                    int currentCursorLine = Console.CursorTop;
                     // wait for user to write something into the chat
                     string content = Console.ReadLine();
                     if (!string.IsNullOrWhiteSpace(content))
-                        await connection.InvokeAsync("sendMessage", $"{name}:", content);
+                    {
+                        Console.SetCursorPosition(0, Console.CursorTop - 1);
+                        await connection.InvokeAsync("sendMessage", $"{_userName}", ": " + content);
+                    }
                 }
             }
             catch (System.Exception e)
