@@ -28,14 +28,15 @@ namespace ChatConsole
             //Ask the user if they want to configure a different host
             Console.WriteLine("Enter host (i.e. http://localhost:5000/chatHub - or leave blank and use default!)");
             var inputHost = Console.ReadLine();
-            //Check if there was anything provided - otherwise we use the default
+            //Check if there was anything provided - otherwise we use the default as preconfigured!
             if (!string.IsNullOrWhiteSpace(inputHost))
                 host = inputHost;
 
             Console.WriteLine($"Using host: {host}");
-
-            Console.WriteLine("Enter a UserName");
+            Console.WriteLine("Enter a UserName!");
             _userName = Console.ReadLine();
+
+            //TODO: include a username check!
 
             try
             {
@@ -87,27 +88,6 @@ namespace ChatConsole
             {
                 Console.WriteLine("Closing App");
             }
-        }
-
-        /// <summary>
-        /// Test method to handle Yes/No selection on console apps
-        /// </summary>
-        /// <param name="title">The text to display on the read message</param>
-        /// <returns></returns>
-        public static bool Confirm(string title)
-        {
-            ConsoleKey response;
-            do
-            {
-                Console.Write($"{ title } [y/n] ");
-                response = Console.ReadKey(false).Key;
-                if (response != ConsoleKey.Enter)
-                {
-                    Console.WriteLine();
-                }
-            } while (response != ConsoleKey.Y && response != ConsoleKey.N);
-
-            return (response == ConsoleKey.Y);
         }
     }
 }
