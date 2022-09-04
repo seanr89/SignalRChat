@@ -9,7 +9,7 @@ namespace SignalServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Signal R Chatter Host in C#\r");
+            Console.WriteLine("Signal R Chatter Host\r");
             Console.WriteLine("------------------------\n");
 
             CreateWebHostBuilder(args).Build().Run();

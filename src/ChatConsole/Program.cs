@@ -10,14 +10,11 @@ namespace ChatConsole
 {
     class Program
     {
-        //useful: https://github.com/aspnet/SignalR-samples
-        //https://docs.microsoft.com/en-us/aspnet/core/signalr/dotnet-client?view=aspnetcore-5.0&tabs=visual-studio
         private static IConfigurationRoot Configuration { get; set; }
         private static string _userName { get; set; }
         private static bool _history = false;
         static async Task Main(string[] args)
         {
-            // Display title as the C# SignalR Chat
             Console.WriteLine("SignalR Chatter\r");
             Console.WriteLine("------------------------\n");
 
@@ -37,15 +34,28 @@ namespace ChatConsole
             Console.WriteLine("Enter a UserName!");
             _userName = Console.ReadLine();
 
-            //TODO: include a username check!
-
             try
             {
                 var connection = new HubConnectionBuilder().WithUrl(host).Build();
+                await connection.StartAsync().ContinueWith(task =>
+                {
+                    if (task.IsFaulted)
+                    {
+                        Console.WriteLine("There was an error opening the connection:{0}", task.Exception.GetBaseException());
+                    }
+                    else
+                    {
+                        Console.WriteLine("Connected");
+                    }
+                });
 
-                await connection.StartAsync();
-                Console.WriteLine("Starting connection. Press Ctrl-C to close.");
+                //Registers a handler that will be invoked when the connection is closed.
+                connection.Closed+= (error) => {
+                    // Do your close logic
+                    return Task.CompletedTask;
+                };
 
+                Console.WriteLine("Press Ctrl-C to close.");
                 //Handle cancellation/closure events
                 var cts = new CancellationTokenSource();
                 Console.CancelKeyPress += async (sender, a) =>
@@ -53,6 +63,8 @@ namespace ChatConsole
                     a.Cancel = true;
                     cts.Cancel();
                     await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{_userName} has left");
+                    await connection.StopAsync();
+                    await connection.DisposeAsync();
                     Environment.Exit(0);
                 };
 
@@ -68,12 +80,14 @@ namespace ChatConsole
                 //Connection and request chat history - may only need this once
                 connection.On("broadcastHistory", (string message) =>
                 {
-                    //TODO: output history
-                    Console.WriteLine($"says: {message}");
+                    if(_history)
+                        return;
+                    Console.WriteLine($"Chat history recieved");
+                    _history = true;
                 });
 
+                //Send Connection Message
                 await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{_userName} has connected");
-
                 //Make request to get history
                 await connection.InvokeAsync("getChatHistory");
 

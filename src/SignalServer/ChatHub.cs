@@ -34,6 +34,7 @@ public class ChatHub : Hub
     /// <returns></returns>
     public async Task GetChatHistory()
     {
+        Console.WriteLine("GetChatHistory:Called");
         await Clients.All.SendAsync("broadcastHistory", JsonConvert.SerializeObject(_ChatHistory._history));
     }
 }
