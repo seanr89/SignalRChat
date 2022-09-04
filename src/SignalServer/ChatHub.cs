@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 
 namespace SignalServer;
 public class ChatHub : Hub
@@ -26,11 +27,12 @@ public class ChatHub : Hub
     }
 
     /// <summary>
-    /// 
+    /// Additionally endpoint to test reading out a chat history log
+    /// UN-TESTED
     /// </summary>
     /// <returns></returns>
     public async Task GetChatHistory()
     {
-        //await Clients.All.SendAsync("broadcastMessage", name, message);
+        await Clients.All.SendAsync("broadcastHistory", JsonConvert.SerializeObject(_ChatHistory._history));
     }
 }

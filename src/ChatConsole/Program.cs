@@ -14,6 +14,7 @@ namespace ChatConsole
         //https://docs.microsoft.com/en-us/aspnet/core/signalr/dotnet-client?view=aspnetcore-5.0&tabs=visual-studio
         private static IConfigurationRoot Configuration { get; set; }
         private static string _userName { get; set; }
+        private static bool _history = false;
         static async Task Main(string[] args)
         {
             // Display title as the C# SignalR Chat
@@ -64,7 +65,16 @@ namespace ChatConsole
                         Console.WriteLine($"{userName} says: {message}");
                 });
 
+                //Connection and request chat history - may only need this once
+                connection.On("broadcastHistory", (string message) =>
+                {
+                    //TODO: output history
+                    Console.WriteLine($"says: {message}");
+                });
+
                 await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{_userName} has connected");
+
+                await connection.InvokeAsync("getChatHistory");
 
                 Console.WriteLine("Please write into chat below!");
                 while (true)

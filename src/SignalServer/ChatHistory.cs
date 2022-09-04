@@ -14,7 +14,7 @@ public class ChatHistory
     }
 
     /// <summary>
-    /// 
+    /// Support logging of message with history clean up
     /// </summary>
     /// <param name="record"></param>
     public void logMessage(ChatRecord record)
