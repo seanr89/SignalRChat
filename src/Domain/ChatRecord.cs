@@ -1,5 +1,5 @@
 
-namespace SignalServer;
+namespace Domain;
 
 /// <summary>
 /// basic record object for storing a single chat message

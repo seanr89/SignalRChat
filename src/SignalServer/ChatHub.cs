@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 

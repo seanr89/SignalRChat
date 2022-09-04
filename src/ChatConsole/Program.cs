@@ -74,6 +74,7 @@ namespace ChatConsole
 
                 await connection.InvokeAsync("sendMessage", "ConsoleClient", $"{_userName} has connected");
 
+                //Make request to get history
                 await connection.InvokeAsync("getChatHistory");
 
                 Console.WriteLine("Please write into chat below!");
