@@ -9,4 +9,8 @@ namespace Domain;
 /// <returns></returns>
 public record ChatRecord(string username, string message)
 {
+    public override string ToString()
+    {
+        return $"User: {username} said: {message}";
+    }
 }

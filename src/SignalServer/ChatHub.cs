@@ -10,10 +10,7 @@ namespace SignalServer;
 public class ChatHub : Hub
 {
     private ChatHistory _ChatHistory = new ChatHistory();
-    public ChatHub()
-    {
-        
-    }
+    public ChatHub(){}
     /// <summary>
     /// Supports messages being received from external sources
     /// Handles then the broadcasting of that message to all others
@@ -29,7 +26,6 @@ public class ChatHub : Hub
 
     /// <summary>
     /// Additionally endpoint to test reading out a chat history log
-    /// UN-TESTED
     /// </summary>
     /// <returns></returns>
     public async Task GetChatHistory()

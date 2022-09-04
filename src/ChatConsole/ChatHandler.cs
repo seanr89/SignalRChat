@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace ChatConsole
 {
     /// <summary>
-    /// Handler class to support input and output events in app for signal r server
+    /// Handler class to support input and output events in app for signalr server
     /// can support azure and local based implementation
     /// </summary>
     public class ChatHandler

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace ChatConsole
 {
     class Program
     {
-        private static IConfigurationRoot Configuration { get; set; }
-        private static string _userName { get; set; }
+        private static IConfigurationRoot? Configuration { get; set; }
+        private static string? _userName { get; set; }
         private static bool _history = false;
         static async Task Main(string[] args)
         {
@@ -30,7 +32,7 @@ namespace ChatConsole
             if (!string.IsNullOrWhiteSpace(inputHost))
                 host = inputHost;
 
-            Console.WriteLine($"Using host: {host}");
+            //Console.WriteLine($"Using host: {host}");
             Console.WriteLine("Enter a UserName!");
             _userName = Console.ReadLine();
 
@@ -40,15 +42,10 @@ namespace ChatConsole
                 await connection.StartAsync().ContinueWith(task =>
                 {
                     if (task.IsFaulted)
-                    {
                         Console.WriteLine("There was an error opening the connection:{0}", task.Exception.GetBaseException());
-                    }
                     else
-                    {
                         Console.WriteLine("Connected");
-                    }
                 });
-
                 //Registers a handler that will be invoked when the connection is closed.
                 connection.Closed+= (error) => {
                     // Do your close logic
@@ -83,6 +80,9 @@ namespace ChatConsole
                     if(_history)
                         return;
                     Console.WriteLine($"Chat history recieved");
+                    var records = JsonConvert.DeserializeObject<IEnumerable<ChatRecord>>(message);
+                    if(records.Any())
+                        Console.WriteLine($"Found a total of {records.Count()} recs with first value: {records.ToList()[0].ToString()}");
                     _history = true;
                 });
 
@@ -112,6 +112,7 @@ namespace ChatConsole
             finally
             {
                 Console.WriteLine("Closing App");
+                //TODO add connection disposal here!
             }
         }
     }
