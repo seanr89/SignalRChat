@@ -17,8 +17,8 @@ namespace ChatConsole
         /// <summary>
         /// Primart constructor to control the console input and output events from the console!
         /// </summary>
-        /// <param name="inputProvider"></param>
-        /// <param name="outputProvider"></param>
+        /// <param name="inputProvider">Console provider</param>
+        /// <param name="outputProvider">Console provider</param>
         public ChatHandler(Func<string> inputProvider, Action<string> outputProvider)
         {
             _inputProvider = inputProvider;

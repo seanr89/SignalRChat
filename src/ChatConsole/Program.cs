@@ -1,11 +1,6 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Domain;
+﻿using Domain;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace ChatConsole
@@ -48,12 +43,11 @@ namespace ChatConsole
                 });
                 //Registers a handler that will be invoked when the connection is closed.
                 connection.Closed+= (error) => {
-                    // Do your close logic
+                    // Do your close logic here!
                     return Task.CompletedTask;
                 };
 
                 Console.WriteLine("Press Ctrl-C to close.");
-                //Handle cancellation/closure events
                 var cts = new CancellationTokenSource();
                 Console.CancelKeyPress += async (sender, a) =>
                 {
@@ -79,10 +73,15 @@ namespace ChatConsole
                 {
                     if(_history)
                         return;
-                    Console.WriteLine($"Chat history recieved");
-                    var records = JsonConvert.DeserializeObject<IEnumerable<ChatRecord>>(message);
-                    if(records.Any())
-                        Console.WriteLine($"Found a total of {records.Count()} recs with first value: {records.ToList()[0].ToString()}");
+                    var records = JsonConvert.DeserializeObject<IEnumerable<ChatRecord>>(message) ?? new List<ChatRecord>();
+                    if(records.Any()){
+                        Console.WriteLine($"Chat history received");
+                        //Console.WriteLine($"Found a total of {records.Count()} recs with first value: {records.ToList()[0].ToString()}");
+                        foreach (var item in records)
+                        {
+                            Console.WriteLine($"{item.username} says: {item.message}");
+                        }
+                    }
                     _history = true;
                 });
 
@@ -96,7 +95,7 @@ namespace ChatConsole
                 {
                     int currentCursorLine = Console.CursorTop;
                     // wait for user to write something into the chat
-                    string content = Console.ReadLine();
+                    string content = Console.ReadLine() ?? String.Empty;
                     if (!string.IsNullOrWhiteSpace(content))
                     {
                         Console.SetCursorPosition(0, Console.CursorTop - 1);

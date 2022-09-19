@@ -32,5 +32,4 @@ public class Startup
             endpoints.MapHub<ChatHub>("/chatHub");
         });
     }
-
 }
