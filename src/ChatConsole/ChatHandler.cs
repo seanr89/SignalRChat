@@ -15,7 +15,7 @@ namespace ChatConsole
         private readonly Action<string> _outputProvider;
 
         /// <summary>
-        /// Primart constructor to control the console input and output events from the console!
+        /// Primary constructor to control the console input and output events from the console!
         /// </summary>
         /// <param name="inputProvider">Console provider</param>
         /// <param name="outputProvider">Console provider</param>
