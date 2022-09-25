@@ -12,7 +12,7 @@ jobs:
         environment: Production
         defaults:
             run:
-                working-directory: ./src/EventsAPI
+                working-directory: ./src/SignalServer
         steps:
             - uses: actions/checkout@v2
             - name: Build the Docker image
