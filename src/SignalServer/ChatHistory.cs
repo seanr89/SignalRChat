@@ -1,6 +1,3 @@
-
-using Domain;
-
 namespace SignalServer;
 
 /// <summary>
@@ -17,14 +14,14 @@ public class ChatHistory
     }
 
     /// <summary>
-    /// Initialistion of seed/test historical data
+    /// Testing - Init of seed/test historical data
     /// </summary>
     void InitialiseTestData()
     {
-        _history.Add(new ChatRecord("Sean", "Hi All"));
-        _history.Add(new ChatRecord("Ross", "Hi Sean"));
-        _history.Add(new ChatRecord("Sean", "Thanks"));
-        _history.Add(new ChatRecord("Conor", "Nawwww"));
+        _history.Add(new ChatRecord("Sean", "Hi All", DateTime.UtcNow));
+        _history.Add(new ChatRecord("Ross", "Hi Sean", DateTime.UtcNow));
+        _history.Add(new ChatRecord("Sean", "Thanks", DateTime.UtcNow));
+        _history.Add(new ChatRecord("Conor", "Nawwww", DateTime.UtcNow));
     }
 
     /// <summary>

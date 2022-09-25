@@ -16,9 +16,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <ProjectReference Include="../Domain/Domain.csproj"/>
-  </ItemGroup>
+  </ItemGroup> -->
 
   <ItemGroup>
     <None Update="appsettings.json">

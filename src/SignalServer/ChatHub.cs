@@ -1,8 +1,3 @@
-
-
-using System;
-using System.Threading.Tasks;
-using Domain;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 
@@ -19,12 +14,12 @@ public class ChatHub : Hub
     /// <returns>a broadcastMessage to others listening</returns>
     public async Task SendMessage(string name, string message)
     {
-        _ChatHistory.logMessage(new ChatRecord(name, message));
+        _ChatHistory.logMessage(new ChatRecord(name, message, DateTime.UtcNow));
         await Clients.All.SendAsync("broadcastMessage", name, message);
     }
 
     /// <summary>
-    /// Additionally endpoint to test reading out a chat history log
+    /// Additional endpoint to read out a chat history log
     /// </summary>
     /// <returns>Task for a SignalR response</returns>
     public async Task GetChatHistory()
