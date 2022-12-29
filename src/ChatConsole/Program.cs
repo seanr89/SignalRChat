@@ -26,8 +26,7 @@ namespace ChatConsole
             //Check if there was anything provided - otherwise we use the default as preconfigured!
             if (!string.IsNullOrWhiteSpace(inputHost))
                 host = inputHost;
-
-            //Console.WriteLine($"Using host: {host}");
+                
             Console.WriteLine("Enter a UserName!");
             _userName = Console.ReadLine();
 

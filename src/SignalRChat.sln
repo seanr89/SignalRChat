@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalServer", "SignalServer\SignalServer.csproj", "{030C4E38-F316-4853-8829-661D51A89BFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{A8B5418E-D83C-40DC-8B66-EA2E0AF5B2A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatConsole", "ChatConsole\ChatConsole.csproj", "{7BC0DB14-DF1E-44D6-A5BA-DA24D31EB5AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{030C4E38-F316-4853-8829-661D51A89BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{030C4E38-F316-4853-8829-661D51A89BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{030C4E38-F316-4853-8829-661D51A89BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{030C4E38-F316-4853-8829-661D51A89BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8B5418E-D83C-40DC-8B66-EA2E0AF5B2A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8B5418E-D83C-40DC-8B66-EA2E0AF5B2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8B5418E-D83C-40DC-8B66-EA2E0AF5B2A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8B5418E-D83C-40DC-8B66-EA2E0AF5B2A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC0DB14-DF1E-44D6-A5BA-DA24D31EB5AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC0DB14-DF1E-44D6-A5BA-DA24D31EB5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC0DB14-DF1E-44D6-A5BA-DA24D31EB5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC0DB14-DF1E-44D6-A5BA-DA24D31EB5AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

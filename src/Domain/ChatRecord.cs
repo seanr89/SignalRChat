@@ -2,10 +2,10 @@
 namespace Domain;
 
 /// <summary>
-/// basic record object for storing a single chat message
+/// Store a single chat message
 /// </summary>
-/// <param name="username"></param>
-/// <param name="message"></param>
+/// <param name="username">the user tagged to the message</param>
+/// <param name="message">the message content</param>
 public record ChatRecord(string username, string message, DateTime eventDate)
 {
     public override string ToString()
