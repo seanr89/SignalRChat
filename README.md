@@ -19,3 +19,5 @@ Additionally, Redis could be interesting to review for chat history
 
 2. run: `docker run signalserver`
 or `docker run -d -p 8080:80 --name signaler signalserver`
+
+3. update packagesL `dotnet outdated -u`
