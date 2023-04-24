@@ -16,6 +16,6 @@ class Program
 
     private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
-        .UseUrls("http://hostname:5000;https://hostname:5001")
+        .UseUrls("http://hostname:3000;https://hostname:3001")
         .UseStartup<Startup>();
 }

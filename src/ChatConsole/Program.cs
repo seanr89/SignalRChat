@@ -18,10 +18,10 @@ namespace ChatConsole
             //configure the default host for local (current work IP)
             //string host = "http://10.15.38.39:5000/chatHub";
             //Home
-            string host = "http://localhost:5000/chatHub";
+            string host = "http://localhost:3000/chatHub";
 
             //Ask the user if they want to configure a different host
-            Console.WriteLine("Enter host (i.e. http://localhost:5000/chatHub - or leave blank and use default!)");
+            Console.WriteLine("Enter host (i.e. http://localhost:3000/chatHub - or leave blank and use default!)");
             var inputHost = Console.ReadLine();
             //Check if there was anything provided - otherwise we use the default as preconfigured!
             if (!string.IsNullOrWhiteSpace(inputHost))
