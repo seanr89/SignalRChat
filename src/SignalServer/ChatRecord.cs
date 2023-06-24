@@ -2,10 +2,10 @@
 namespace SignalServer;
 
 /// <summary>
-/// basic record object for storing a single chat message
+/// Basic record for storing chat messages
 /// </summary>
-/// <param name="username"></param>
-/// <param name="message"></param>
+/// <param name="username">user who sent the message</param>
+/// <param name="message">simple message sent</param>
 public record ChatRecord(string username, string message, DateTime eventDate)
 {
     public override string ToString()

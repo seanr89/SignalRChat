@@ -1,8 +1,3 @@
-
-
-using System;
-using System.Threading.Tasks;
-
 namespace ChatConsole
 {
     /// <summary>
