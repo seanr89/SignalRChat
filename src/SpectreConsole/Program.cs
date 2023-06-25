@@ -4,6 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 
+
+AnsiConsole.Write(
+    new FigletText("Spectre Signal Console")
+        .LeftJustified()
+        .Color(Color.Red));
+
 // Build a config object, using env vars and JSON providers.
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
